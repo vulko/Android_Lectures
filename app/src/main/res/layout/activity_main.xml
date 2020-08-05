@@ -8,9 +8,10 @@
     tools:context=".CalculatorActivity">
 
     <TextView
+        android:id="@+id/operation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10 + 20 ="
+        android:text=""
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -18,9 +19,10 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:id="@+id/result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="30"
+        android:text=""
         android:textSize="50sp"
         android:layout_gravity="right"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,18 +37,21 @@
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/btn_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="1"/>
 
         <Button
+            android:id="@+id/btn_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="2"/>
 
         <Button
+            android:id="@+id/btn_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
@@ -61,18 +66,21 @@
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/btn_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="4"/>
 
         <Button
+            android:id="@+id/btn_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="5"/>
 
         <Button
+            android:id="@+id/btn_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
@@ -87,22 +95,54 @@
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/btn_7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="7"/>
 
         <Button
+            android:id="@+id/btn_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="8"/>
 
         <Button
+            android:id="@+id/btn_9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:text="9"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:text="-"/>
+
+        <Button
+            android:id="@+id/btn_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:text="0"/>
+
+        <Button
+            android:id="@+id/btn_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:text="@string/plus"/>
 
     </LinearLayout>
 
@@ -113,6 +153,7 @@
         android:gravity="bottom|center_horizontal">
 
         <Button
+            android:id="@+id/calcBtn"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:textSize="50sp"
