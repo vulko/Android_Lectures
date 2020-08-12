@@ -2,7 +2,13 @@ package com.kvolkov.androidlectures;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +30,26 @@ public class CalculatorActivity extends AppCompatActivity {
     Button btnplus = null;
     TextView operationTv = null;
     TextView resultTv = null;
+
+    ServiceExample.ServiceBinder mServiceBinder = null;
+
+    private boolean mIsServiceBound = false;
+
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            Log.e(this.getClass().getName(), "Service Connected. CompName = " + componentName);
+            mServiceBinder = (ServiceExample.ServiceBinder) iBinder;
+            mIsServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            Log.e(this.getClass().getName(), "Service Disconnected");
+            mServiceBinder = null;
+            mIsServiceBound = false;
+        }
+    };
 
     View.OnClickListener mBtnClickListener = new View.OnClickListener() {
         @Override
@@ -78,9 +104,19 @@ public class CalculatorActivity extends AppCompatActivity {
                     value = " - ";
                     break;
                 }
+                case R.id.calcBtn: {
+                    Intent intent = new Intent(CalculatorActivity.this, ServiceExample.class);
+                    intent.setAction("Привет бобер!");
+                    boolean isFound = bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+                    Log.e(this.getClass().getName(), "Service found? " + isFound);
+                    return;
+                }
             }
 
             operationTv.setText(operationTv.getText() + value);
+            if (mServiceBinder != null && mIsServiceBound) {
+                mServiceBinder.showMessage(operationTv.getText().toString());
+            }
         }
     };
 
@@ -123,6 +159,15 @@ public class CalculatorActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             // restore UI
             String value = savedInstanceState.getString("key", "");
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mIsServiceBound) {
+            unbindService(mServiceConnection);
         }
     }
 
