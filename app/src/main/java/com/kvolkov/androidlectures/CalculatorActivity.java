@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +34,8 @@ public class CalculatorActivity extends AppCompatActivity {
     TextView operationTv = null;
     TextView resultTv = null;
 
-    ServiceExample.ServiceBinder mServiceBinder = null;
+//    ServiceExample.ServiceBinder mServiceBinder = null;
+    private Messenger mMessenger;
 
     private boolean mIsServiceBound = false;
 
@@ -39,14 +43,15 @@ public class CalculatorActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             Log.e(this.getClass().getName(), "Service Connected. CompName = " + componentName);
-            mServiceBinder = (ServiceExample.ServiceBinder) iBinder;
+//            mServiceBinder = (ServiceExample.ServiceBinder) iBinder;
+            mMessenger = new Messenger(iBinder);
             mIsServiceBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             Log.e(this.getClass().getName(), "Service Disconnected");
-            mServiceBinder = null;
+//            mServiceBinder = null;
             mIsServiceBound = false;
         }
     };
@@ -114,8 +119,16 @@ public class CalculatorActivity extends AppCompatActivity {
             }
 
             operationTv.setText(operationTv.getText() + value);
-            if (mServiceBinder != null && mIsServiceBound) {
-                mServiceBinder.showMessage(operationTv.getText().toString());
+            if (/*mServiceBinder != null &&*/ mIsServiceBound) {
+//                mServiceBinder.showMessage(operationTv.getText().toString());
+                Message msg = new Message();
+                msg.what = 0;
+                msg.obj = new String("Бобер в мессенджере");
+                try {
+                    mMessenger.send(msg);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
