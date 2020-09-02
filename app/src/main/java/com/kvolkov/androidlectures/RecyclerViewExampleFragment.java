@@ -1,27 +1,34 @@
 package com.kvolkov.androidlectures;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-public class ExampleFragment extends Fragment {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class RecyclerViewExampleFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView mTitleTv;
+    private RecyclerView mRecyclerView;
+    private int counter = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public ExampleFragment() {
+    private final RecyclerViewAdapter mAdapter = new RecyclerViewAdapter();
+
+    public RecyclerViewExampleFragment() {
         // Required empty public constructor
     }
 
@@ -34,8 +41,8 @@ public class ExampleFragment extends Fragment {
      * @return A new instance of fragment ExampleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExampleFragment newInstance(String param1, String param2) {
-        ExampleFragment fragment = new ExampleFragment();
+    public static RecyclerViewExampleFragment newInstance(String param1, String param2) {
+        RecyclerViewExampleFragment fragment = new RecyclerViewExampleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -56,9 +63,21 @@ public class ExampleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_example, container, false);
-        mTitleTv = view.findViewById(R.id.fragmentTitle);
-        mTitleTv.setText(mParam1);
+        View view = inflater.inflate(R.layout.recyclerview_example, container, false);
+        mRecyclerView = view.findViewById(R.id.recycler);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.addItem("Item " + (++counter));
+
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.addItem("new item " + (++counter));
+            }
+        });
+
         return view;
     }
 
@@ -66,4 +85,5 @@ public class ExampleFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 }

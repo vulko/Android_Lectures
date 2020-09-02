@@ -18,12 +18,13 @@ public class FragmentExampleActivity extends FragmentActivity {
         setContentView(R.layout.fragment_activity_example);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, ExampleFragment.newInstance("Fragment " + mCounter, ""));
+        transaction.add(R.id.fragment_container, RecyclerViewExampleFragment.newInstance("Fragment " + mCounter, ""));
         transaction.addToBackStack("Fragment " + mCounter);
         mCounter++;
         transaction.commit();
 
-        ((Button) findViewById(R.id.add_fragment_btn)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.add_fragment_btn).setVisibility(View.GONE);
+        findViewById(R.id.add_fragment_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showNextFragment();
@@ -41,7 +42,7 @@ public class FragmentExampleActivity extends FragmentActivity {
 
     private void showNextFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, ExampleFragment.newInstance("Fragment " + mCounter, ""));
+        transaction.add(R.id.fragment_container, ListExampleFragment.newInstance("Fragment " + mCounter, ""));
         transaction.addToBackStack("Fragment " + mCounter);
         mCounter++;
         transaction.commit();
