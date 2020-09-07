@@ -26,7 +26,7 @@ public class RecyclerViewExampleFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private final RecyclerViewAdapter mAdapter = new RecyclerViewAdapter();
+    private RecyclerViewAdapter mAdapter;
 
     public RecyclerViewExampleFragment() {
         // Required empty public constructor
@@ -67,16 +67,10 @@ public class RecyclerViewExampleFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mAdapter = new RecyclerViewAdapter(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.addItem("Item " + (++counter));
 
-        mRecyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAdapter.addItem("new item " + (++counter));
-            }
-        });
+        mAdapter.addItem("Initial item", 0);
 
         return view;
     }
