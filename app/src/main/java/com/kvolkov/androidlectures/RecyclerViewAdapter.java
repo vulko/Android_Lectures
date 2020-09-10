@@ -29,6 +29,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         notifyItemRangeChanged(ind + 1, mItems.size() - (ind + 1));
     }
 
+    public void setItems(List<String> items) {
+        mItems.clear();
+        mItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
     public void removeItem(int ind) {
         Log.e(this.getClass().getName(), "removeItem, POS = " + ind);
         mItems.remove(ind);
@@ -49,26 +55,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         vh.pos = position;
         Log.e(this.getClass().getName(), "onBindViewHolder, POS = " + vh.pos);
         vh.textView.setText(mItems.get(position) + " " + position);
-        vh.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e(this.getClass().getName(), "Adding item after, POS = " + vh.pos);
-//                for (int idx = vh.pos + 1; idx < mItems.size(); ++idx) {
-//                    getViewHolderAt(idx).pos += 1;
-//                }
-                addItem("new item", vh.pos + 1);
-            }
-        });
-        vh.buttonDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e(this.getClass().getName(), "Deleting item at, POS = " + vh.pos);
-                removeItem(vh.pos);
-//                for (int idx = vh.pos; idx < mItems.size(); ++idx) {
-//                    getViewHolderAt(idx).pos -= 1;
-//                }
-            }
-        });
     }
 
     @Override
@@ -102,19 +88,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         Log.e(this.getClass().getName(), "onViewDetachedFromWindow, POS = " + ((ViewHolder) holder).pos);
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         int pos;
         TextView textView;
-        Button button;
-        Button buttonDel;
+//        Button button;
+//        Button buttonDel;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.text_item);
-            button = itemView.findViewById(R.id.btn);
-            buttonDel = itemView.findViewById(R.id.btnDel);
+//            button = itemView.findViewById(R.id.btn);
+//            buttonDel = itemView.findViewById(R.id.btnDel);
         }
     }
 
