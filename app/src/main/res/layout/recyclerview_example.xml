@@ -12,4 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="60sp"
+        android:text="0%"/>
+
 </FrameLayout>
