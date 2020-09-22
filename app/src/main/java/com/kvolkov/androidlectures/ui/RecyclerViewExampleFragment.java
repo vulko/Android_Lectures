@@ -1,4 +1,4 @@
-package com.kvolkov.androidlectures;
+package com.kvolkov.androidlectures.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +10,12 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.kvolkov.androidlectures.LoadRecyclerViewDataAsyncTask;
+import com.kvolkov.androidlectures.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +37,7 @@ public class RecyclerViewExampleFragment extends Fragment {
     private RecyclerViewAdapter mAdapter;
     private LoadRecyclerViewDataAsyncTask mAsyncTask;
 
-    interface ILoadProgress {
+    public interface ILoadProgress {
         void onLoadComplete();
         void onLoadProgress(int progress);
     }
@@ -115,6 +121,8 @@ public class RecyclerViewExampleFragment extends Fragment {
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fun();
+
                 mProgress.setVisibility(View.VISIBLE);
                 mAsyncTask = new LoadRecyclerViewDataAsyncTask(mRandomDataList, listener);
                 mAsyncTask.execute("param 1", "param 2");
@@ -137,6 +145,18 @@ public class RecyclerViewExampleFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    public void fun() {
+        try {
+            JSONObject obj = new JSONObject("{\"id\":10979,\"publication_date\":1437502873,\"title\":\"В Гатчине отменили фестиваль «Ночь света — 2015»\",\"slug\":\"v-gatchine-otmenili-festival-noch-sveta-2015\",\"place\":{\"id\":17645,\"title\":\"Музей-заповедник «Гатчина»\",\"slug\":\"muzej-zapovednik-gatchina\",\"address\":\"Ленинградская обл., г. Гатчина, просп. Красноармейский, д. 1\",\"phone\":\"+7 812 958-03-66, +7 813 719-34-92\",\"is_stub\":true,\"site_url\":\"https://kudago.com/spb/place/muzej-zapovednik-gatchina/\",\"coords\":{\"lat\":59.56395871546711,\"lon\":30.10800637574349},\"subway\":\"\",\"is_closed\":false,\"location\":\"spb\"},\"description\":\"<p>Руководство музея-заповедника «Гатчина» сообщило о том, что праздника света в этом году не будет.</p>\\n\",\"body_text\":\"<p>Анонсированная ранее <a href=\\\"http://kudago.com/spb/event/sveto-pirotehnicheskoe-shou-noch-sveta-v-gatchine/\\\">«Ночь света в Гатчине — 2015»</a> должна была стать грандиозным зрелищем. Были запланированы мультимедийное лазерное шоу, фейерверки, инсталляции и театрализованная программа. К сожалению, мероприятие отменили.</p>\\n<p>В официальной группе руководство музея-заповедника дает следующее объяснение: «Мы решили взять паузу и лучше продумать формат. Надеемся вернуться с обновленным мероприятием в 2016 году».</p>\\n<p>Информацию, появившуюся до этого в интернете, в музее прокомментировали так: «Обращаем ваше внимание на то, что все анонсы фестиваля этого года в сети Интернет размещены без согласования с музеем-заповедником \\\"Гатчина\\\"».</p>\\n\",\"images\":[{\"image\":\"https://kudago.com/media/images/news/a9/0e/a90ed21e406357e0ff12e1128c775b9b.jpg\",\"thumbnails\":{\"640x384\":\"https://kudago.com/media/thumbs/640x384/images/news/a9/0e/a90ed21e406357e0ff12e1128c775b9b.jpg\",\"144x96\":\"https://kudago.com/media/thumbs/144x96/images/news/a9/0e/a90ed21e406357e0ff12e1128c775b9b.jpg\"},\"source\":{\"name\":\"vk.com\",\"link\":\"http://vk.com/album-55848808_176736434\"}}],\"site_url\":\"https://kudago.com/spb/news/v-gatchine-otmenili-festival-noch-sveta-2015/\",\"favorites_count\":0,\"comments_count\":0,\"disable_comments\":false}");
+
+            obj.getBoolean("disable_comments");
+            JSONObject placeObj = obj.getJSONObject("place");
+            placeObj.getString("title");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

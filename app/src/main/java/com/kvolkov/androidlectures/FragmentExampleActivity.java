@@ -1,12 +1,19 @@
 package com.kvolkov.androidlectures;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
+import androidx.room.Room;
+
+import com.kvolkov.androidlectures.db.AppDatabase;
+import com.kvolkov.androidlectures.db.User;
+import com.kvolkov.androidlectures.ui.UserListFragment;
+import com.kvolkov.androidlectures.ui.RecyclerViewExampleFragment;
 
 public class FragmentExampleActivity extends FragmentActivity {
 
@@ -17,11 +24,28 @@ public class FragmentExampleActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_activity_example);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, RecyclerViewExampleFragment.newInstance("Fragment " + mCounter, ""));
-        transaction.addToBackStack("Fragment " + mCounter);
-        mCounter++;
-        transaction.commit();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // init DB
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,
+                        "database-name").build();
+                db.userDao().addUser(new User("admin", "123456"));
+                db.userDao().addUser(new User("user", "pass"));
+                db.userDao().addUser(new User("guest", ""));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.add(R.id.fragment_container, UserListFragment.newInstance());
+                        transaction.addToBackStack("Fragment " + mCounter);
+                        mCounter++;
+                        transaction.commit();
+                    }
+                });
+            }
+        }).start();
 
         findViewById(R.id.add_fragment_btn).setVisibility(View.GONE);
         findViewById(R.id.add_fragment_btn).setOnClickListener(new View.OnClickListener() {
@@ -42,7 +66,7 @@ public class FragmentExampleActivity extends FragmentActivity {
 
     private void showNextFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, ListExampleFragment.newInstance("Fragment " + mCounter, ""));
+        transaction.add(R.id.fragment_container, UserListFragment.newInstance());
         transaction.addToBackStack("Fragment " + mCounter);
         mCounter++;
         transaction.commit();

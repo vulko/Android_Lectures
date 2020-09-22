@@ -1,4 +1,4 @@
-package com.kvolkov.androidlectures;
+package com.kvolkov.androidlectures.ui;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.kvolkov.androidlectures.R;
 
 import java.util.LinkedList;
 import java.util.List;
